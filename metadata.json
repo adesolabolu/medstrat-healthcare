@@ -1,0 +1,6 @@
+{
+  "name": "MEDSTRAT | Advanced Healthcare & Precision Medicine",
+  "description": "Precision medicine platform integrating advanced AI diagnostics with world-class surgical expertise across cardiology, neurology, and molecular oncology.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,1023 @@
+Below is the component for your context <!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>MEDSTRAT | Advanced Healthcare &amp; Precision Medicine</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700&amp;family=Inter+Tight:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+
+  <style>
+    /* Premium Animation Framework */
+    .reveal-hidden { opacity: 0; transform: translateY(30px); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal-visible { opacity: 1; transform: translateY(0); }
+    
+    .reveal-left-hidden { opacity: 0; transform: translateX(-30px); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal-left-visible { opacity: 1; transform: translateX(0); }
+
+    .reveal-scale-hidden { opacity: 0; transform: scale(0.95); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal-scale-visible { opacity: 1; transform: scale(1); }
+
+    /* Text Reveal Effect */
+    .text-reveal-container { overflow: hidden; }
+    .text-reveal-content { transform: translateY(100%); transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal-visible .text-reveal-content { transform: translateY(0); }
+
+    /* Custom grayscale to color transition */
+    .img-medical-reveal { filter: grayscale(100%); transition: filter 0.7s ease; }
+    .img-medical-reveal:hover { filter: grayscale(0%); }
+
+    /* Custom scrollbar for technical look */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #1e3a8a; border-radius: 4px; }
+  </style>
+   
+<style type="text/tailwindcss">@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: transparent;
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 14px;
+    height: 14px;
+    border: 0.8px solid rgba(15, 23, 42, 0.3);
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+  }
+
+  input[type="checkbox"]::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em #1e3a8a;
+    background-color: currentColor;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  }
+
+  input[type="checkbox"]:checked::before {
+    transform: scale(1);
+  }
+}</style><script src="https://cdn.tailwindcss.com"></script><script>tailwind.config = {
+  important: '#app-root',
+  theme: {
+    extend: {
+      colors: {
+        'brand-primary': '#0f172a', // Deep Navy
+        'brand-secondary': '#1e293b', // Slate
+        'brand-accent': '#3b82f6', // Vibrant Blue (Improved from #1e3a8a for better contrast)
+        'neutral-background': '#f8fafc', // Light Gray
+        'neutral-surface': '#f1f5f9', // Lighter Slate
+        'text-primary': '#f8fafc', // Off-white
+        'text-secondary': '#64748b', // Muted Gray
+        'text-onPrimary': '#0f172a', // Dark text for light backgrounds
+        'error-red': '#ef4444',
+      },
+      fontFamily: {
+        'primary': ['Bricolage Grotesque', 'sans-serif'],
+        'secondary': ['Inter Tight', 'sans-serif'],
+        'mono': ['JetBrains Mono', 'monospace'],
+      },
+      borderRadius: {
+        'sm': '8px',
+        'md': '12px',
+        'lg': '40px',
+        'full': '9999px',
+      },
+      boxShadow: {
+        'accent-glow': '0 20px 40px -10px rgba(59, 130, 246, 0.3)',
+      }
+    }
+  }
+}</script></head>
+
+<body id="app-root">
+  <div class="font-secondary bg-neutral-background text-brand-primary overflow-x-hidden min-h-screen flex flex-col w-full relative">
+    
+    <header class="fixed top-0 left-0 right-0 z-50 bg-neutral-background/80 backdrop-blur-md border-b border-brand-primary/5">
+      <nav data-editable="header" class="max-w-[1440px] mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
+        <a data-editable="text" data-path="header.logo.text" class="font-primary text-2xl font-bold text-brand-primary tracking-tight" href="/">
+          MEDSTRAT<span class="text-brand-accent">.</span>
+        </a>
+        
+        <div class="hidden md:flex items-center gap-10" data-editable-list="header.navLinks">
+          <a data-editable="text" data-path="header.navLinks[0].text" class="font-secondary text-sm font-medium text-brand-primary/70 hover:text-brand-accent transition-colors" href="#services">Specialties</a>
+          <a data-editable="text" data-path="header.navLinks[1].text" class="font-secondary text-sm font-medium text-brand-primary/70 hover:text-brand-accent transition-colors" href="#technology">Precision Care</a>
+          <a data-editable="text" data-path="header.navLinks[2].text" class="font-secondary text-sm font-medium text-brand-primary/70 hover:text-brand-accent transition-colors" href="#doctors">Our Experts</a>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <a href="#emergency" class="hidden lg:block font-secondary text-xs text-error-red font-bold px-4 py-2 border border-error-red/20 rounded-md">
+            Emergency: 911
+          </a>
+          <button data-editable="text" data-path="header.ctaButton.text" class="hidden sm:block bg-brand-primary text-text-primary font-secondary text-sm font-bold px-6 lg:px-8 py-3 rounded-full hover:bg-brand-accent transition-all shadow-lg shadow-brand-primary/10">
+            Book Appointment
+          </button>
+          
+          <!-- Mobile Menu Toggle -->
+          <button id="mobile-menu-toggle" class="md:hidden p-2 text-brand-primary" aria-label="Toggle Menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Mobile Menu Overlay -->
+      <div id="mobile-menu" class="hidden fixed inset-0 z-[60] bg-brand-primary p-6 md:hidden">
+        <div class="flex justify-between items-center mb-12">
+          <a class="font-primary text-2xl font-bold text-text-primary tracking-tight" href="/">
+            MEDSTRAT<span class="text-brand-accent">.</span>
+          </a>
+          <button id="mobile-menu-close" class="p-2 text-text-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        <div class="flex flex-col gap-8">
+          <a class="mobile-nav-link font-secondary text-lg font-semibold text-text-primary" href="#services">Specialties</a>
+          <a class="mobile-nav-link font-secondary text-lg font-semibold text-text-primary" href="#technology">Precision Care</a>
+          <a class="mobile-nav-link font-secondary text-lg font-semibold text-text-primary" href="#doctors">Our Experts</a>
+          <div class="pt-8 border-t border-text-primary/10 mt-4">
+            <a href="#emergency" class="block font-secondary text-sm text-error-red font-bold mb-6">Emergency: +1 (800) 911-STRAT</a>
+            <button class="w-full bg-brand-accent text-text-primary font-secondary text-base font-bold px-8 py-5 rounded-full">
+              Book Appointment
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-grow pt-20"><section class="py-12 md:py-20 flex items-center justify-center bg-[#fcfcfc] px-4 md:px-10 overflow-hidden">
+  <div class="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-[38%_62%] min-h-[550px] rounded-2xl overflow-hidden shadow-2xl border border-brand-primary/5">
+    
+    <!-- Left Column: Medical Media Section -->
+    <div class="relative w-full h-[350px] lg:h-auto bg-brand-primary overflow-hidden group">
+      <img src="https://images.pexels.com/photos/36101262/pexels-photo-36101262.jpeg?w=1000&amp;h=1200&amp;fit=crop" alt="Precision Medicine" class="absolute inset-0 w-full h-full object-cover img-medical-reveal grayscale">
+      
+      <!-- Gradient Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-t from-brand-primary/40 to-transparent"></div>
+    </div>
+
+    <!-- Right Column: Strategic Content Section -->
+    <div class="bg-brand-primary flex flex-col justify-center p-8 md:p-12 lg:p-16 relative">
+      <div class="space-y-6 relative z-10">
+        <div data-animation-on-scroll="" data-animation-type="up" data-animation-delay="100" class="text-reveal-container">
+          <h1 class="font-primary text-4xl md:text-5xl lg:text-6xl leading-[1.1] text-text-primary tracking-tighter" data-editable="text" data-path="home.hero.title">
+            Precision Medicine <span class="text-brand-accent">Optimized</span> for Life.
+          </h1>
+        </div>
+
+        <p data-animation-on-scroll="" data-animation-delay="300" class="font-secondary text-base md:text-lg text-text-primary/80 max-w-[540px] leading-relaxed" data-editable="text" data-path="home.hero.description">
+          We integrate advanced AI diagnostics with world-class surgical expertise to deliver clinical outcomes that were previously impossible.
+        </p>
+
+        <!-- CTA Group -->
+        <div data-animation-on-scroll="" data-animation-delay="500" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-6 sm:gap-8 pt-6">
+          <button class="px-10 py-5 bg-brand-accent text-white font-secondary text-sm font-bold rounded-full hover:bg-white hover:text-brand-primary transition-all shadow-accent-glow">
+            Book Virtual Consultation
+          </button>
+          <a href="#services" class="group flex items-center justify-center sm:justify-start gap-3 font-secondary text-sm font-semibold text-text-primary hover:text-brand-accent transition-colors py-2">
+            Our Specialties
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+          </a>
+        </div>
+        
+        <!-- Metrics -->
+        <div class="pt-10 border-t border-text-primary/10 mt-8 grid grid-cols-2 md:flex md:flex-wrap items-center gap-8 md:gap-10">
+           <div data-animation-on-scroll="" data-animation-type="up" data-animation-delay="600" class="flex flex-col">
+              <span class="font-primary text-3xl text-text-primary">99.8%</span>
+              <span class="font-secondary text-[10px] uppercase font-bold tracking-widest text-brand-accent">Surgical Accuracy</span>
+           </div>
+           <div data-animation-on-scroll="" data-animation-type="up" data-animation-delay="700" class="flex flex-col">
+              <span class="font-primary text-3xl text-text-primary">12k+</span>
+              <span class="font-secondary text-[10px] uppercase font-bold tracking-widest text-brand-accent">Annual Procedures</span>
+           </div>
+           <div data-animation-on-scroll="" data-animation-type="up" data-animation-delay="800" class="flex flex-col col-span-2 md:col-span-1">
+              <span class="font-primary text-3xl text-text-primary">TOP 1%</span>
+              <span class="font-secondary text-[10px] uppercase font-bold tracking-widest text-brand-accent">Global Ranking</span>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Emergency Support Strip -->
+<section id="emergency" class="py-6 bg-brand-accent text-white">
+  <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-4">
+      <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+      </div>
+      <div>
+        <p class="font-secondary text-[10px] uppercase font-bold tracking-widest opacity-80">Emergency Care 24/7</p>
+        <p class="font-primary text-xl font-bold leading-none">Need immediate help? Call +1 (800) 911-STRAT</p>
+      </div>
+    </div>
+    <button class="w-full md:w-auto bg-white text-brand-accent font-secondary text-sm font-bold px-8 py-4 rounded-full hover:bg-brand-primary hover:text-white transition-all shadow-lg">
+      Find Nearest Emergency Room
+    </button>
+  </div>
+</section>
+
+<!-- Specialties Grid -->
+<section id="services" class="py-24 md:py-32 bg-neutral-background">
+  <div class="max-w-7xl mx-auto px-6 md:px-12">
+    <div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-20" data-animation-on-scroll="">
+      <div class="max-w-2xl">
+        <span class="font-secondary text-xs font-bold uppercase tracking-widest text-brand-accent block mb-4">Precision Pillars</span>
+        <h2 class="font-primary text-4xl md:text-6xl text-brand-primary leading-[1.1]">Specialized Care for <span class="italic font-normal">Complex</span> Conditions.</h2>
+      </div>
+      <p class="font-secondary text-text-secondary max-w-sm pb-2">
+        We specialize in medical disciplines that require extreme technical proficiency and innovative treatment protocols.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Cardiovascular -->
+      <div class="group bg-white p-10 rounded-md border border-brand-primary/5 hover:border-brand-accent/30 transition-all hover:shadow-2xl duration-500" data-animation-on-scroll="" data-animation-type="up" data-animation-delay="0">
+        <div class="text-brand-accent mb-12 flex justify-between items-center">
+          <div class="w-8 h-px bg-brand-accent/30"></div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:rotate-45 transition-transform"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </div>
+        <h3 class="font-primary text-3xl text-brand-primary mb-6">Advanced Cardiology</h3>
+        <p class="font-secondary text-text-secondary mb-10 leading-relaxed">
+          Pioneering minimally invasive heart surgery and genetic cardiovascular research for tailored therapies.
+        </p>
+        <img src="https://images.pexels.com/photos/8460089/pexels-photo-8460089.jpeg?w=600&amp;h=400&amp;fit=crop" alt="Cardiology" class="w-full h-48 object-cover rounded-sm grayscale group-hover:grayscale-0 transition-all duration-700">
+      </div>
+
+      <!-- Neurological -->
+      <div class="group bg-brand-primary p-10 rounded-md border border-brand-accent/10 transition-all hover:shadow-2xl duration-500" data-animation-on-scroll="" data-animation-type="up" data-animation-delay="200">
+        <div class="text-brand-accent mb-12 flex justify-between items-center">
+          <div class="w-8 h-px bg-brand-accent/30"></div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-primary group-hover:rotate-45 transition-transform"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </div>
+        <h3 class="font-primary text-3xl text-text-primary mb-6">Precision Neurology</h3>
+        <p class="font-secondary text-text-primary/60 mb-10 leading-relaxed">
+          Next-generation brain-mapping technology and deep brain stimulation for neurodegenerative disorders.
+        </p>
+        <img src="https://images.pexels.com/photos/35344688/pexels-photo-35344688.jpeg?w=600&amp;h=400&amp;fit=crop" alt="Neurology" class="w-full h-48 object-cover rounded-sm grayscale group-hover:grayscale-0 transition-all duration-700">
+      </div>
+
+      <!-- Oncology -->
+      <div class="group bg-white p-10 rounded-md border border-brand-primary/5 hover:border-brand-accent/30 transition-all hover:shadow-2xl duration-500" data-animation-on-scroll="" data-animation-type="up" data-animation-delay="400">
+        <div class="text-brand-accent mb-12 flex justify-between items-center">
+          <div class="w-8 h-px bg-brand-accent/30"></div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:rotate-45 transition-transform"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </div>
+        <h3 class="font-primary text-3xl text-brand-primary mb-6">Molecular Oncology</h3>
+        <p class="font-secondary text-text-secondary mb-10 leading-relaxed">
+          Custom cancer vaccines and robotic-assisted surgeries designed for maximum tumor resection with minimal damage.
+        </p>
+        <img src="https://images.pexels.com/photos/8533093/pexels-photo-8533093.jpeg?w=600&amp;h=400&amp;fit=crop" alt="Oncology" class="w-full h-48 object-cover rounded-sm grayscale group-hover:grayscale-0 transition-all duration-700">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Precision Tech Section -->
+<section id="technology" class="py-24 bg-brand-primary text-text-primary overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+    <div data-animation-on-scroll="" class="space-y-10">
+      <div>
+        <span class="font-secondary text-xs font-bold uppercase tracking-widest text-brand-accent block mb-4">Precision Instrumentation</span>
+        <h2 class="font-primary text-4xl md:text-6xl leading-tight">Digital Twins of Your <span class="text-brand-accent">Biology.</span></h2>
+      </div>
+      
+      <div class="space-y-8">
+        <div class="flex gap-6 items-start">
+          <div class="font-primary text-brand-accent text-2xl">01</div>
+          <div>
+            <h4 class="font-primary text-2xl mb-2">Predictive Diagnostics</h4>
+            <p class="text-text-primary/60 text-sm leading-relaxed">Our AI models analyze millions of data points to identify health risks years before symptoms manifest.</p>
+          </div>
+        </div>
+        <div class="flex gap-6 items-start">
+          <div class="font-primary text-brand-accent text-2xl">02</div>
+          <div>
+            <h4 class="font-primary text-2xl mb-2">Robotic Microsurgery</h4>
+            <p class="text-text-primary/60 text-sm leading-relaxed">Da Vinci systems providing 10x magnification and tremor-free precision for delicate neuro and cardiac work.</p>
+          </div>
+        </div>
+        <div class="flex gap-6 items-start">
+          <div class="font-primary text-brand-accent text-2xl">03</div>
+          <div>
+            <h4 class="font-primary text-2xl mb-2">Genomic Customization</h4>
+            <p class="text-text-primary/60 text-sm leading-relaxed">Every treatment plan is built on your unique genetic signature, ensuring maximum efficacy and safety.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="relative" data-animation-on-scroll="">
+      <div class="absolute -inset-10 bg-brand-accent/10 blur-[100px] rounded-full"></div>
+      <div class="relative z-10 border border-text-primary/10 rounded-2xl overflow-hidden shadow-2xl">
+        <img src="https://images.pexels.com/photos/8376196/pexels-photo-8376196.jpeg?w=800&amp;h=1000&amp;fit=crop" alt="Medical Technology" class="w-full h-[600px] object-cover">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experts Section -->
+<section id="doctors" class="py-24 md:py-32 bg-neutral-surface">
+  <div class="max-w-7xl mx-auto px-6 md:px-12">
+    <div class="text-center max-w-3xl mx-auto mb-20" data-animation-on-scroll="">
+      <span class="font-secondary text-xs font-bold uppercase tracking-widest text-brand-accent block mb-4">Our Experts</span>
+      <h2 class="font-primary text-4xl md:text-5xl text-brand-primary">Architects of Modern Medicine.</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- Doctor 1 -->
+      <div class="group" data-animation-on-scroll="" data-animation-type="scale" data-animation-delay="0">
+        <div class="relative h-[400px] mb-6 rounded-md overflow-hidden bg-brand-primary">
+          <img src="https://images.pexels.com/photos/36101265/pexels-photo-36101265.jpeg?w=600&amp;h=800&amp;fit=crop" alt="Dr. Alistair Vance" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110">
+        </div>
+        <h4 class="font-primary text-xl text-brand-primary">Dr. Alistair Vance</h4>
+        <p class="font-secondary text-xs uppercase tracking-widest text-text-secondary font-bold">Director of Innovation</p>
+      </div>
+
+      <!-- Doctor 2 -->
+      <div class="group" data-animation-on-scroll="" data-animation-type="scale" data-animation-delay="150">
+        <div class="relative h-[400px] mb-6 rounded-md overflow-hidden bg-brand-primary">
+          <img src="https://images.pexels.com/photos/7904485/pexels-photo-7904485.jpeg?w=600&amp;h=800&amp;fit=crop" alt="Dr. Sarah Chen" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110">
+        </div>
+        <h4 class="font-primary text-xl text-brand-primary">Dr. Sarah Chen</h4>
+        <p class="font-secondary text-xs uppercase tracking-widest text-text-secondary font-bold">Head of Cardiac Research</p>
+      </div>
+
+      <!-- Doctor 3 -->
+      <div class="group" data-animation-on-scroll="" data-animation-type="scale" data-animation-delay="300">
+        <div class="relative h-[400px] mb-6 rounded-md overflow-hidden bg-brand-primary">
+          <img src="https://images.pexels.com/photos/8533250/pexels-photo-8533250.jpeg?w=600&amp;h=800&amp;fit=crop" alt="Dr. Marcus Thorne" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110">
+        </div>
+        <h4 class="font-primary text-xl text-brand-primary">Dr. Marcus Thorne</h4>
+        <p class="font-secondary text-xs uppercase tracking-widest text-text-secondary font-bold">Chief of Oncology</p>
+      </div>
+
+      <!-- Doctor 4 -->
+      <div class="group" data-animation-on-scroll="" data-animation-type="scale" data-animation-delay="450">
+        <div class="relative h-[400px] mb-6 rounded-md overflow-hidden bg-brand-primary">
+          <img src="https://images.pexels.com/photos/9574478/pexels-photo-9574478.jpeg?w=600&amp;h=800&amp;fit=crop" alt="Dr. Elena Rossi" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110">
+        </div>
+        <h4 class="font-primary text-xl text-brand-primary">Dr. Elena Rossi</h4>
+        <p class="font-secondary text-xs uppercase tracking-widest text-text-secondary font-bold">Head of Diagnostics</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Appointment / Contact Section -->
+<section id="contact" class="py-24 bg-brand-primary text-text-primary relative overflow-hidden">
+  <!-- Mesh Gradient Background -->
+  <div class="absolute inset-0 bg-gradient-to-br from-brand-accent/10 to-transparent"></div>
+  
+  <div class="max-w-[1280px] mx-auto px-6 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-[45%_55%] gap-20 items-stretch">
+      
+      <div data-animation-on-scroll="" class="space-y-8 flex flex-col justify-center">
+        <div>
+          <span class="font-secondary text-xs font-bold uppercase tracking-widest text-brand-accent block mb-4">Contact Us</span>
+          <h2 class="font-primary text-5xl md:text-7xl leading-tight">Ready for a <span class="text-brand-accent">Smarter</span> Strategy?</h2>
+        </div>
+        <p class="font-secondary text-lg text-text-primary/60 max-w-md">
+          Begin your journey toward precision care. Our team will review your diagnostic history and prepare a strategic treatment brief within 24 hours.
+        </p>
+        
+        <div class="pt-8 grid grid-cols-2 gap-8">
+           <div class="p-6 bg-brand-secondary/30 rounded-md border border-text-primary/5">
+              <span class="font-secondary text-[10px] uppercase font-bold tracking-widest text-brand-accent block mb-2">Main Campus</span>
+              <p class="font-primary text-lg">Hospital Plaza A</p>
+              <p class="text-xs text-text-primary/40 mt-1 underline cursor-pointer">View Navigation</p>
+           </div>
+           <div class="p-6 bg-brand-secondary/30 rounded-md border border-text-primary/5">
+              <span class="font-secondary text-[10px] uppercase font-bold tracking-widest text-brand-accent block mb-2">Contact Center</span>
+              <p class="font-primary text-lg">+1 (800) MED</p>
+              <p class="text-xs text-text-primary/40 mt-1 underline cursor-pointer">Speak with an Expert</p>
+           </div>
+        </div>
+      </div>
+
+      <!-- Appointment Form -->
+      <div class="bg-white p-8 md:p-12 rounded-2xl shadow-2xl text-brand-primary" data-animation-on-scroll="">
+        <h3 class="font-primary text-3xl mb-8">Consultation Request</h3>
+        <form class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label class="font-secondary text-[10px] uppercase font-bold tracking-widest text-text-secondary">Full Name</label>
+              <input type="text" placeholder="John Doe" class="w-full bg-neutral-background border border-brand-primary/10 rounded-md px-4 py-3 focus:outline-none focus:border-brand-accent transition-colors font-secondary">
+            </div>
+            <div class="space-y-2">
+              <label class="font-secondary text-[10px] uppercase font-bold tracking-widest text-text-secondary">Email Address</label>
+              <input type="email" placeholder="john@example.com" class="w-full bg-neutral-background border border-brand-primary/10 rounded-md px-4 py-3 focus:outline-none focus:border-brand-accent transition-colors font-secondary">
+            </div>
+          </div>
+          
+          <div class="space-y-2">
+            <label class="font-secondary text-[10px] uppercase font-bold tracking-widest text-text-secondary">Medical Specialty Required</label>
+            <select class="w-full bg-neutral-background border border-brand-primary/10 rounded-md px-4 py-3 focus:outline-none focus:border-brand-accent transition-colors font-secondary appearance-none">
+              <option>General Precision Checkup</option>
+              <option>Cardiovascular Assessment</option>
+              <option>Neuro-Diagnostic Screening</option>
+              <option>Oncology Review</option>
+            </select>
+          </div>
+
+          <div class="space-y-2">
+            <label class="font-secondary text-[10px] uppercase font-bold tracking-widest text-text-secondary">Initial Brief / Symptoms</label>
+            <textarea rows="4" placeholder="Briefly describe your requirements..." class="w-full bg-neutral-background border border-brand-primary/10 rounded-md px-4 py-3 focus:outline-none focus:border-brand-accent transition-colors font-secondary resize-none"></textarea>
+          </div>
+
+          <button type="submit" class="w-full py-5 bg-brand-primary text-text-primary font-secondary text-sm font-bold rounded-md hover:bg-brand-accent transition-all shadow-xl" data-pixel-form-submit="true" data-pixel-form-id="9706h">
+            Submit Clinical Brief
+          </button>
+          
+          <p class="text-[10px] text-center text-text-secondary font-secondary font-medium tracking-wide">
+            SECURE TRANSMISSION • HIPPA COMPLIANT • ENCRYPTED
+          </p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Page specific logic
+  const form = document.querySelector('form');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Your clinical brief has been securely transmitted. A medical coordinator will contact you within 24 hours.');
+      form.reset();
+    });
+  }
+});
+</script></main>
+
+    <footer class="bg-brand-primary text-text-primary pt-24 pb-12">
+      <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+          <div class="col-span-1 md:col-span-1">
+            <h3 class="font-primary text-2xl font-bold mb-6">MEDSTRAT<span class="text-brand-accent">.</span></h3>
+            <p class="text-text-primary/60 text-sm leading-relaxed mb-8">
+              Redefining medical excellence through surgical precision and data-driven patient care.
+            </p>
+            <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-full bg-brand-secondary flex items-center justify-center hover:bg-brand-accent transition-colors cursor-pointer">
+                <span class="font-mono text-[10px]">TW</span>
+              </div>
+              <div class="w-8 h-8 rounded-full bg-brand-secondary flex items-center justify-center hover:bg-brand-accent transition-colors cursor-pointer">
+                <span class="font-mono text-[10px]">LI</span>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <span class="font-secondary text-xs font-bold uppercase tracking-widest text-brand-accent block mb-6">Specialties</span>
+            <ul class="space-y-4 font-secondary text-sm text-text-primary/70">
+              <li><a href="#" class="hover:text-brand-accent transition-colors">Cardiology</a></li>
+              <li><a href="#" class="hover:text-brand-accent transition-colors">Neurology</a></li>
+              <li><a href="#" class="hover:text-brand-accent transition-colors">Oncology</a></li>
+              <li><a href="#" class="hover:text-brand-accent transition-colors">Precision Surgery</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <span class="font-secondary text-xs font-bold uppercase tracking-widest text-brand-accent block mb-6">Patients</span>
+            <ul class="space-y-4 font-secondary text-sm text-text-primary/70">
+              <li><a href="#" class="hover:text-brand-accent transition-colors">Patient Portal</a></li>
+              <li><a href="#" class="hover:text-brand-accent transition-colors">Insurance</a></li>
+              <li><a href="#" class="hover:text-brand-accent transition-colors">Find a Doctor</a></li>
+              <li><a href="#" class="hover:text-brand-accent transition-colors">Health Library</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <span class="font-secondary text-xs font-bold uppercase tracking-widest text-brand-accent block mb-6">Contact</span>
+            <ul class="space-y-4 font-secondary text-sm text-text-primary/70">
+              <li class="flex items-start gap-3">
+                <span class="text-brand-accent font-semibold">Address:</span>
+                240 Medical Plaza, Tech City, ST 90210
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-brand-accent font-semibold">Phone:</span>
+                +1 (800) MED-STRAT
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-brand-accent font-semibold">Email:</span>
+                care@medstrat.health
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="pt-8 border-t border-text-primary/10 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p class="font-mono text-[9px] uppercase tracking-[0.2em] text-text-primary/40">© 2024 MEDSTRAT HEALTH SYSTEMS. ALL RIGHTS RESERVED.</p>
+          <div class="flex gap-8">
+            <a href="#" class="font-mono text-[9px] uppercase tracking-[0.2em] text-text-primary/40 hover:text-brand-accent">Privacy Policy</a>
+            <a href="#" class="font-mono text-[9px] uppercase tracking-[0.2em] text-text-primary/40 hover:text-brand-accent">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Advanced Scroll Observer
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const type = entry.target.dataset.animationType || 'up';
+            const delay = entry.target.dataset.animationDelay || '0';
+            
+            setTimeout(() => {
+              if (type === 'up') entry.target.classList.add('reveal-visible');
+              if (type === 'left') entry.target.classList.add('reveal-left-visible');
+              if (type === 'scale') entry.target.classList.add('reveal-scale-visible');
+              entry.target.classList.add('animate-on-scroll-visible'); // For backward compatibility
+            }, parseInt(delay));
+            
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('[data-animation-on-scroll]').forEach(el => {
+        const type = el.dataset.animationType || 'up';
+        if (type === 'up') el.classList.add('reveal-hidden');
+        if (type === 'left') el.classList.add('reveal-left-hidden');
+        if (type === 'scale') el.classList.add('reveal-scale-hidden');
+        observer.observe(el);
+      });
+
+      // Mobile Menu Logic
+      const menuToggle = document.getElementById('mobile-menu-toggle');
+      const menuClose = document.getElementById('mobile-menu-close');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+      if (menuToggle && menuClose && mobileMenu) {
+        menuToggle.addEventListener('click', () => {
+          mobileMenu.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        });
+
+        const closeMenu = () => {
+          mobileMenu.classList.add('hidden');
+          document.body.style.overflow = '';
+        };
+
+        menuClose.addEventListener('click', closeMenu);
+        mobileNavLinks.forEach(link => link.addEventListener('click', closeMenu));
+      }
+    });
+  </script>
+
+
+    <script id="lh-website-form-handler" data-lh-form-handler="true">
+    (function() {
+      if (window.__lhWebsiteFormHandlerInitialized) return;
+      window.__lhWebsiteFormHandlerInitialized = true;
+
+      var PROJECT_ID = "PAY47xjwPeYbnU0yZARc";
+      var DEFAULT_SUCCESS_MESSAGE = 'Thanks. Your message has been sent.';
+      var DEFAULT_ERROR_MESSAGE = 'Could not submit the form. Please try again.';
+
+      function isLocalHostname(hostname) {
+        var normalized = String(hostname || '').trim().toLowerCase();
+        return normalized === 'localhost' || normalized === '127.0.0.1';
+      }
+
+      function readHostnameFromUrl(url) {
+        if (!url) return '';
+
+        try {
+          return String(new URL(url).hostname || '').trim().toLowerCase();
+        } catch (_) {
+          return '';
+        }
+      }
+
+      function detectApiBaseUrl() {
+        try {
+          var hostname = window.location.hostname || '';
+          if (isLocalHostname(hostname)) {
+            return 'http://localhost:8080/api';
+          }
+        } catch (_) {}
+
+        try {
+          var baseHostname = readHostnameFromUrl(document.baseURI || '');
+          if (isLocalHostname(baseHostname)) {
+            return 'http://localhost:8080/api';
+          }
+        } catch (_) {}
+
+        try {
+          var parentHostname =
+            window.parent && window.parent !== window && window.parent.location
+              ? String(window.parent.location.hostname || '').trim().toLowerCase()
+              : '';
+          if (isLocalHostname(parentHostname)) {
+            return 'http://localhost:8080/api';
+          }
+        } catch (_) {}
+
+        return 'https://api.landinghero.ai/api';
+      }
+
+      var API_BASE_URL = detectApiBaseUrl();
+
+      function getFeedbackNode(form) {
+        var feedback = form.nextElementSibling;
+        if (
+          feedback &&
+          feedback.nodeType === 1 &&
+          feedback.getAttribute('data-lh-form-feedback') === 'true'
+        ) {
+          return feedback;
+        }
+
+        feedback = document.createElement('div');
+        feedback.setAttribute('data-lh-form-feedback', 'true');
+        feedback.setAttribute('aria-live', 'polite');
+        feedback.style.marginTop = '12px';
+        feedback.style.padding = '12px 14px';
+        feedback.style.borderRadius = '10px';
+        feedback.style.fontSize = '14px';
+        feedback.style.lineHeight = '1.5';
+        feedback.style.display = 'none';
+        form.insertAdjacentElement('afterend', feedback);
+        return feedback;
+      }
+
+      function setFeedback(form, kind, message) {
+        var feedback = getFeedbackNode(form);
+        feedback.textContent = message || '';
+        feedback.style.display = message ? 'block' : 'none';
+        feedback.style.border = kind === 'success'
+          ? '1px solid rgba(16, 185, 129, 0.25)'
+          : '1px solid rgba(239, 68, 68, 0.25)';
+        feedback.style.background = kind === 'success'
+          ? 'rgba(16, 185, 129, 0.08)'
+          : 'rgba(239, 68, 68, 0.08)';
+        feedback.style.color = kind === 'success' ? '#065f46' : '#991b1b';
+      }
+
+      function isElementVisible(element) {
+        if (!element) return false;
+        if (element.type === 'hidden') return false;
+
+        try {
+          var style = window.getComputedStyle(element);
+          if (
+            style.display === 'none' ||
+            style.visibility === 'hidden' ||
+            Number(style.opacity || '1') === 0
+          ) {
+            return false;
+          }
+        } catch (_) {}
+
+        if (typeof element.getClientRects === 'function') {
+          return element.getClientRects().length > 0;
+        }
+
+        return true;
+      }
+
+      function getFieldLabel(form, element) {
+        var ariaLabel = String(element.getAttribute('aria-label') || '').trim();
+        if (ariaLabel) return ariaLabel;
+
+        var labels = element.labels;
+        if (labels && labels.length > 0) {
+          var joined = Array.prototype.map.call(labels, function(label) {
+            return String(label.textContent || '').trim();
+          }).filter(Boolean).join(' ');
+          if (joined) return joined;
+        }
+
+        var id = String(element.id || '').trim();
+        if (id) {
+          try {
+            var escapedId =
+              typeof CSS !== 'undefined' && typeof CSS.escape === 'function'
+                ? CSS.escape(id)
+                : id.replace(/"/g, '\"');
+            var explicitLabel = form.querySelector('label[for="' + escapedId + '"]');
+            if (explicitLabel) {
+              var explicitText = String(explicitLabel.textContent || '').trim();
+              if (explicitText) return explicitText;
+            }
+          } catch (_) {}
+        }
+
+        var parentLabel = typeof element.closest === 'function'
+          ? element.closest('label')
+          : null;
+        if (parentLabel) {
+          var parentText = String(parentLabel.textContent || '').trim();
+          if (parentText) return parentText;
+        }
+
+        var parentElement = element.parentElement;
+        if (parentElement) {
+          var siblingLabel = parentElement.querySelector('label');
+          if (siblingLabel) {
+            var siblingLabelText = String(siblingLabel.textContent || '').trim();
+            if (siblingLabelText) return siblingLabelText;
+          }
+        }
+
+        var previousSibling = element.previousElementSibling;
+        while (previousSibling) {
+          if (String(previousSibling.tagName || '').toLowerCase() === 'label') {
+            var previousSiblingText = String(previousSibling.textContent || '').trim();
+            if (previousSiblingText) return previousSiblingText;
+          }
+          previousSibling = previousSibling.previousElementSibling;
+        }
+
+        var placeholder = String(element.getAttribute('placeholder') || '').trim();
+        if (placeholder) return placeholder;
+
+        return String(element.name || element.id || element.type || 'field').trim();
+      }
+
+      function addDataValue(data, name, value) {
+        if (!name) return;
+
+        if (Object.prototype.hasOwnProperty.call(data, name)) {
+          if (Array.isArray(data[name])) {
+            data[name].push(value);
+          } else {
+            data[name] = [data[name], value];
+          }
+          return;
+        }
+
+        data[name] = value;
+      }
+
+      function normalizeFieldType(element) {
+        var tagName = String(element.tagName || '').toLowerCase();
+        if (tagName === 'textarea') return 'textarea';
+        if (tagName === 'select') return 'select';
+        return String(element.type || tagName || 'text').toLowerCase();
+      }
+
+      function getFieldValue(element) {
+        var type = normalizeFieldType(element);
+
+        if (type === 'checkbox' || type === 'radio') {
+          return element.checked ? 'true' : '';
+        }
+
+        if (type === 'file') {
+          if (!element.files || !element.files.length) return '';
+          return Array.prototype.map.call(element.files, function(file) {
+            return file && file.name ? file.name : '';
+          }).filter(Boolean).join(', ');
+        }
+
+        if (element.tagName && String(element.tagName).toLowerCase() === 'select' && element.multiple) {
+          return Array.prototype.map.call(element.selectedOptions || [], function(option) {
+            return option && option.value ? option.value : '';
+          }).filter(Boolean).join(', ');
+        }
+
+        return String(element.value || '').trim();
+      }
+
+      function collectFormPayload(form) {
+        var fields = [];
+        var data = {};
+        var elements = form.querySelectorAll('input, textarea, select');
+
+        Array.prototype.forEach.call(elements, function(element, index) {
+          if (!element || element.disabled) return;
+          if (!isElementVisible(element)) return;
+
+          var type = normalizeFieldType(element);
+          if (
+            type === 'submit' ||
+            type === 'button' ||
+            type === 'reset' ||
+            type === 'image'
+          ) {
+            return;
+          }
+
+          if ((type === 'checkbox' || type === 'radio') && !element.checked) {
+            return;
+          }
+
+          var value = getFieldValue(element);
+          if (!value) return;
+
+          var name = String(element.name || element.id || ('field_' + index)).trim();
+          if (!name) return;
+
+          fields.push({
+            name: name,
+            label: getFieldLabel(form, element),
+            type: type,
+            value: value
+          });
+          addDataValue(data, name, value);
+        });
+
+        return { fields: fields, data: data };
+      }
+
+      function getPageUrl() {
+        try {
+          if (window.location.href && window.location.href !== 'about:srcdoc') {
+            return window.location.href;
+          }
+        } catch (_) {}
+
+        try {
+          return String(document.baseURI || '').trim();
+        } catch (_) {
+          return '';
+        }
+      }
+
+      function setSubmittingState(form, isSubmitting) {
+        var submitControls = form.querySelectorAll(
+          'button[type="submit"], input[type="submit"], input[type="image"], [data-pixel-form-submit="true"]'
+        );
+
+        Array.prototype.forEach.call(submitControls, function(control) {
+          if (!(control instanceof HTMLElement)) return;
+
+          if (isSubmitting) {
+            if (!control.hasAttribute('data-lh-original-disabled')) {
+              control.setAttribute(
+                'data-lh-original-disabled',
+                control.hasAttribute('disabled') ? 'true' : 'false'
+              );
+            }
+            control.setAttribute('disabled', 'disabled');
+          } else if (control.getAttribute('data-lh-original-disabled') === 'false') {
+            control.removeAttribute('disabled');
+          }
+
+          if (control.tagName.toLowerCase() === 'button') {
+            if (isSubmitting) {
+              if (!control.hasAttribute('data-lh-original-label')) {
+                control.setAttribute(
+                  'data-lh-original-label',
+                  String(control.textContent || '')
+                );
+              }
+              control.textContent = 'Sending...';
+            } else if (control.hasAttribute('data-lh-original-label')) {
+              control.textContent = control.getAttribute('data-lh-original-label') || '';
+              control.removeAttribute('data-lh-original-label');
+            }
+          } else if (control.tagName.toLowerCase() === 'input') {
+            if (isSubmitting) {
+              if (!control.hasAttribute('data-lh-original-label')) {
+                control.setAttribute(
+                  'data-lh-original-label',
+                  String(control.getAttribute('value') || '')
+                );
+              }
+              control.setAttribute('value', 'Sending...');
+            } else if (control.hasAttribute('data-lh-original-label')) {
+              control.setAttribute(
+                'value',
+                control.getAttribute('data-lh-original-label') || ''
+              );
+              control.removeAttribute('data-lh-original-label');
+            }
+          }
+
+          if (!isSubmitting) {
+            control.removeAttribute('data-lh-original-disabled');
+          }
+        });
+      }
+
+      async function handleLandingHeroSubmit(payload) {
+        return fetch(API_BASE_URL + '/projects/forms/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+      }
+
+      async function handleWebhookSubmit(url, payload) {
+        return fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+      }
+
+      document.addEventListener('submit', async function(event) {
+        var form = event.target;
+        if (!(form instanceof HTMLFormElement)) return;
+        if (!PROJECT_ID) return;
+        if (form.__lhFormSubmitting) return;
+
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+
+        var payload = collectFormPayload(form);
+        if (!payload.fields.length) {
+          setFeedback(form, 'error', 'Please complete the form before submitting.');
+          return;
+        }
+
+        form.__lhFormSubmitting = true;
+        setSubmittingState(form, true);
+        setFeedback(form, 'success', '');
+
+        var mode = String(form.getAttribute('data-lh-form-mode') || 'landinghero')
+          .trim()
+          .toLowerCase() === 'webhook'
+          ? 'webhook'
+          : 'landinghero';
+
+        var requestPayload = {
+          project_id: PROJECT_ID,
+          projectId: PROJECT_ID,
+          submittedAt: new Date().toISOString(),
+          pageUrl: getPageUrl(),
+          form: {
+            pixelId: String(form.getAttribute('data-pixel-id') || '').trim()
+          },
+          fields: payload.fields,
+          data: payload.data
+        };
+
+        try {
+          var response;
+
+          if (mode === 'webhook') {
+            var webhookUrl = String(form.getAttribute('data-lh-form-webhook-url') || '').trim();
+            if (!webhookUrl) {
+              throw new Error('Webhook URL is not configured for this form.');
+            }
+            response = await handleWebhookSubmit(webhookUrl, requestPayload);
+          } else {
+            requestPayload.recipientEmail = String(
+              form.getAttribute('data-lh-form-recipient-email') || ''
+            ).trim();
+            response = await handleLandingHeroSubmit(requestPayload);
+          }
+
+          if (!response.ok) {
+            var errorMessage = DEFAULT_ERROR_MESSAGE;
+            try {
+              var errorBody = await response.json();
+              if (errorBody && errorBody.error) {
+                errorMessage = String(errorBody.error);
+              }
+            } catch (_) {}
+            throw new Error(errorMessage);
+          }
+
+          setFeedback(form, 'success', DEFAULT_SUCCESS_MESSAGE);
+          form.reset();
+        } catch (error) {
+          setFeedback(
+            form,
+            'error',
+            error && error.message ? error.message : DEFAULT_ERROR_MESSAGE
+          );
+        } finally {
+          form.__lhFormSubmitting = false;
+          setSubmittingState(form, false);
+        }
+      }, true);
+    })();
+  </script>
+</body></html>
